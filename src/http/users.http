@@ -1,6 +1,3 @@
-# baseURL
-@baseURL = http://localhost:3000
-
 ###
 # Find All Users
 GET {{ baseURL }}/users
@@ -15,8 +12,8 @@ POST {{ baseURL }}/users
 Content-Type: application/json
 
 {
-    "email": "example@email.com",
-    "password": "password"
+  "email": "example@email.com",
+  "password": "password"
 }
 
 ###
@@ -25,8 +22,8 @@ PUT {{ baseURL }}/users/1
 Content-Type: application/json
 
 {
-    "email": "example@email.com",
-    "password": "password"
+  "email": "example@email.com",
+  "password": "password"
 }
 
 ###
