@@ -1,14 +1,11 @@
-###
-# Find All Gateways
-GET {{ baseURL }}/gateways
+### Find All Gateways
+GET http://localhost:3000/gateways
 
-###
-# Find Gateway By Id
-GET {{ baseURL }}/gateways/647c88f25531fad9c7029ad0
+### Find Gateway By Id
+GET http://localhost:3000/gateways/1
 
-###
-# Create Gateway
-POST {{ baseURL }}/gateways
+### Create Gateway
+POST http://localhost:3000/gateways
 Content-Type: application/json
 
 {
@@ -17,9 +14,8 @@ Content-Type: application/json
   "ipv4Address": "192.168.1.1"
 }
 
-###
-# Modify Gateway By Id
-PUT {{ baseURL }}/gateways/647c88f25531fad9c7029ad0
+### Modify Gateway By Id
+PUT http://localhost:3000/gateways/1
 Content-Type: application/json
 
 {
@@ -27,13 +23,11 @@ Content-Type: application/json
   "ipv4Address": "192.168.1.10"
 }
 
-###
-# Delete Gateway By Id
-DELETE {{ baseURL }}/gateways/647c830220bc0153d7a7e006
+### Delete Gateway By Id
+DELETE http://localhost:3000/gateways/1
 
-###
-# Add Peripheral Device to Gateway
-POST {{ baseURL }}/gateways/647c88f25531fad9c7029ad0/devices
+### Add Peripheral Device to Gateway
+POST http://localhost:3000/gateways/1/devices
 Content-Type: application/json
 
 {
@@ -43,6 +37,5 @@ Content-Type: application/json
   "status": "online"
 }
 
-###
-# Remove Peripheral Device from Gateway
-DELETE {{ baseURL }}/gateways/647c88f25531fad9c7029ad0/devices/647c89255531fad9c7029b14
+### Remove Peripheral Device from Gateway
+DELETE http://localhost:3000/gateways/1/devices/1
