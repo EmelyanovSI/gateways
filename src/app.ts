@@ -6,11 +6,11 @@ import express from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
-import { connect, set } from 'mongoose';
+import { connect, connection, set } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
-import { dbConnection } from '@databases';
+import { dbConnection } from '@database';
 import { Routes } from '@interfaces/routes.interface';
 import { ErrorMiddleware } from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
@@ -45,12 +45,23 @@ export class App {
     return this.app;
   }
 
-  private async connectToDatabase() {
+  private connectToDatabase() {
+    set('strictQuery', true);
     if (this.env !== 'production') {
       set('debug', true);
     }
 
-    await connect(dbConnection.url, dbConnection.options);
+    connect(dbConnection.url)
+      .then(() => {
+        logger.info('The database is connected.');
+      })
+      .catch((error: Error) => {
+        logger.error(`Unable to connect to the database: ${error}.`);
+      });
+
+    process.once('SIGUSR2', () => connection.close(() => process.kill(process.pid, 'SIGUSR2')));
+    process.on('SIGTERM', () => connection.close(() => process.exit()));
+    process.on('SIGINT', () => connection.close(() => process.exit()));
   }
 
   private initializeMiddlewares() {
@@ -76,10 +87,10 @@ export class App {
         info: {
           title: 'REST API',
           version: '1.0.0',
-          description: 'Example docs',
-        },
+          description: 'Example docs'
+        }
       },
-      apis: ['swagger.yaml'],
+      apis: ['swagger.yaml']
     };
 
     const specs = swaggerJSDoc(options);
