@@ -1,0 +1,48 @@
+###
+# Find All Gateways
+GET {{ baseURL }}/gateways
+
+###
+# Find Gateway By Id
+GET {{ baseURL }}/gateways/647c88f25531fad9c7029ad0
+
+###
+# Create Gateway
+POST {{ baseURL }}/gateways
+Content-Type: application/json
+
+{
+  "serialNumber": "12345",
+  "name": "Gateway 1",
+  "ipv4Address": "192.168.1.1"
+}
+
+###
+# Modify Gateway By Id
+PUT {{ baseURL }}/gateways/647c88f25531fad9c7029ad0
+Content-Type: application/json
+
+{
+  "name": "Updated Gateway",
+  "ipv4Address": "192.168.1.10"
+}
+
+###
+# Delete Gateway By Id
+DELETE {{ baseURL }}/gateways/647c830220bc0153d7a7e006
+
+###
+# Add Peripheral Device to Gateway
+POST {{ baseURL }}/gateways/647c88f25531fad9c7029ad0/devices
+Content-Type: application/json
+
+{
+  "uid": 1,
+  "vendor": "Device Vendor",
+  "dateCreated": "2023-06-04T12:00:00Z",
+  "status": "online"
+}
+
+###
+# Remove Peripheral Device from Gateway
+DELETE {{ baseURL }}/gateways/647c88f25531fad9c7029ad0/devices/647c89255531fad9c7029b14
