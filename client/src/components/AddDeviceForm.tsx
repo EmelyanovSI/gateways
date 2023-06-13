@@ -40,10 +40,12 @@ const AddDeviceForm: React.FC<Props> = ({ serialNumber, onDeviceAdded }) => {
     <>
       <TextField
         label="UID"
+        type="number"
         value={newDevice.uid}
         onChange={(e) =>
           setNewDevice((prevDevice) => ({ ...prevDevice, uid: +e.target.value }))
         }
+        inputProps={{ min: 0 }}
       />
       <TextField
         label="Vendor"
