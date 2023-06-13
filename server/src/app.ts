@@ -12,7 +12,8 @@ import { dbConnection } from '@database';
 import { Routes } from '@interfaces/routes.interface';
 import { ErrorMiddleware } from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
-import { Default, Env } from '@constants';
+import { Default, Env, GATEWAYS } from '@constants';
+import { GatewayModel } from '@models/gateway.model';
 
 export class App {
   public app: express.Application;
@@ -52,6 +53,16 @@ export class App {
     connect(dbConnection.url)
       .then(() => {
         logger.info('The database is connected.');
+      })
+      .then(() => {
+        return GatewayModel.deleteMany({});
+      })
+      .then(() => {
+        const savePromises = GATEWAYS.map((gateway) => new GatewayModel(gateway).save());
+        return Promise.all(savePromises);
+      })
+      .then(() => {
+        logger.info('Default gateways added successfully');
       })
       .catch((error: Error) => {
         logger.error(`Unable to connect to the database: ${error}.`);
