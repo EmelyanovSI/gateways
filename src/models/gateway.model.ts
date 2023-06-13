@@ -47,13 +47,7 @@ const GatewaySchema: Schema = new Schema({
     }
   },
   devices: {
-    type: [DeviceSchema],
-    validate: {
-      validator: function (value: Device[]) {
-        return value.length <= Default.MAX_DEVICES_COUNT;
-      },
-      message: `Exceeded the maximum number of peripheral devices (${Default.MAX_DEVICES_COUNT})`
-    }
+    type: [DeviceSchema]
   }
 });
 
