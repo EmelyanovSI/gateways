@@ -130,3 +130,13 @@ dist
 
 .vscode/
 .idea/
+
+# dependencies
+.pnp/
+.pnp.js
+
+# production
+build/
+
+# misc
+.DS_Store
