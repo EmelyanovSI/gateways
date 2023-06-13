@@ -1,33 +1,33 @@
 ### Find All Gateways
-GET http://localhost:3000/gateways
+GET http://localhost:4000/gateways
 
 ### Find Gateway By Id
-GET http://localhost:3000/gateways/1
+GET http://localhost:4000/gateways/12345
 
 ### Create Gateway
-POST http://localhost:3000/gateways
+POST http://localhost:4000/gateways
 Content-Type: application/json
 
 {
   "serialNumber": "12345",
   "name": "Gateway 1",
-  "ipv4Address": "192.168.1.1"
+  "ip": "192.168.1.1"
 }
 
 ### Modify Gateway By Id
-PUT http://localhost:3000/gateways/1
+PUT http://localhost:4000/gateways/12345
 Content-Type: application/json
 
 {
   "name": "Updated Gateway",
-  "ipv4Address": "192.168.1.10"
+  "ip": "192.168.1.10"
 }
 
 ### Delete Gateway By Id
-DELETE http://localhost:3000/gateways/1
+DELETE http://localhost:4000/gateways/12345
 
 ### Add Peripheral Device to Gateway
-POST http://localhost:3000/gateways/1/devices
+POST http://localhost:4000/gateways/12345/devices
 Content-Type: application/json
 
 {
@@ -38,4 +38,4 @@ Content-Type: application/json
 }
 
 ### Remove Peripheral Device from Gateway
-DELETE http://localhost:3000/gateways/1/devices/1
+DELETE http://localhost:4000/gateways/1/devices/1
