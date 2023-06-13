@@ -2,6 +2,7 @@ import { Service } from 'typedi';
 import { GatewayModel } from '@models/gateway.model';
 import { Gateway } from '@interfaces/gateway.interface';
 import { Device } from '@interfaces/device.interface';
+import { Default } from '@constants';
 
 @Service()
 export class GatewayService {
@@ -34,14 +35,20 @@ export class GatewayService {
   }
 
   public async addPeripheralDevice(gatewaySerialNumber: string, device: Device): Promise<Gateway> {
-    const gateway = await GatewayModel.findOneAndUpdate(
-      { serialNumber: gatewaySerialNumber },
-      { $push: { devices: device } },
-      { new: true, runValidators: true }
-    );
-
+    const gateway = await GatewayModel.findOne({ serialNumber: gatewaySerialNumber });
     if (!gateway) throw new Error('Gateway not found');
 
+    const existingDevice = gateway.devices.find((d) => d.uid === device.uid);
+    if (existingDevice) {
+      throw new Error(`Device with UID ${device.uid} already exists`);
+    }
+
+    if (gateway.devices.length >= Default.MAX_DEVICES_COUNT) {
+      throw new Error(`Exceeded the maximum number of peripheral devices (${Default.MAX_DEVICES_COUNT})`);
+    }
+
+    gateway.devices.push(device);
+    await gateway.save();
     return gateway;
   }
 
