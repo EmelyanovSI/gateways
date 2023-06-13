@@ -3,37 +3,23 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   CircularProgress,
   Container,
   IconButton,
   List,
   ListItem,
   ListItemText,
-  TextField,
   Typography,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl
 } from '@mui/material';
-import { Add as AddIcon, Delete as DeleteIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import { addPeripheralDevice, getAllGateways, removePeripheralDevice } from '../services/gateway.service';
+import { Delete as DeleteIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { getAllGateways, removePeripheralDevice } from '../services/gateway.service';
 import { Gateway } from '../interfaces/gateway.interface';
-import { Device } from '../interfaces/device.interface';
 import { getDateString } from '../utils';
-import { DeviceStatus } from '../constants';
+import AddDeviceForm from './AddDeviceForm';
 
 const GatewayList: React.FC = () => {
-  const newDeviceInitialState: Device = {
-    uid: 0,
-    vendor: '',
-    status: DeviceStatus.Offline
-  };
-
   const [gateways, setGateways] = useState<Gateway[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [newDevice, setNewDevice] = useState<Device>(newDeviceInitialState);
 
   useEffect(() => {
     fetchGateways();
@@ -59,16 +45,6 @@ const GatewayList: React.FC = () => {
       fetchGateways();
     } catch (error) {
       console.error('Error removing peripheral device:', error);
-    }
-  };
-
-  const handleAddDevice = async (serialNumber: string) => {
-    try {
-      await addPeripheralDevice(serialNumber, newDevice);
-      setNewDevice(newDeviceInitialState);
-      fetchGateways();
-    } catch (error) {
-      console.error('Error adding peripheral device:', error);
     }
   };
 
@@ -110,41 +86,7 @@ const GatewayList: React.FC = () => {
               ) : (
                 <Typography>No devices associated with this gateway.</Typography>
               )}
-              <TextField
-                label="UID"
-                value={newDevice.uid}
-                onChange={(e) =>
-                  setNewDevice((prevDevice) => ({ ...prevDevice, uid: +e.target.value }))
-                }
-              />
-              <TextField
-                label="Vendor"
-                value={newDevice.vendor}
-                onChange={(e) =>
-                  setNewDevice((prevDevice) => ({ ...prevDevice, vendor: e.target.value }))
-                }
-              />
-              <FormControl>
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={newDevice.status}
-                  onChange={(e) =>
-                    setNewDevice((prevDevice) => ({ ...prevDevice, status: e.target.value as DeviceStatus }))
-                  }
-                >
-                  {Object.values(DeviceStatus).map((status) => (
-                    <MenuItem key={status} value={status}>{status}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
-                onClick={() => handleAddDevice(serialNumber)}
-              >
-                Add Device
-              </Button>
+              <AddDeviceForm serialNumber={serialNumber} onDeviceAdded={fetchGateways} />
             </AccordionDetails>
           </Accordion>
         ))
