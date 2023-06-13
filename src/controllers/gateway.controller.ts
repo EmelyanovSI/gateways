@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
 import { Gateway } from '@interfaces/gateway.interface';
 import { GatewayService } from '@services/gateway.service';
-import { PeripheralDevice } from '@interfaces/peripheralDevice.interface';
+import { Device } from '@interfaces/device.interface';
 
 export class GatewayController {
   public gateway = Container.get(GatewayService);
@@ -60,7 +60,7 @@ export class GatewayController {
   public addPeripheralDevice = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const gatewayId: string = req.params.id;
-      const device: PeripheralDevice = req.body;
+      const device: Device = req.body;
       const updatedGateway: Gateway = await this.gateway.addPeripheralDevice(gatewayId, device);
       res.status(200).json({ data: updatedGateway });
     } catch (error) {

@@ -1,9 +1,9 @@
 import { Document, model, Schema } from 'mongoose';
-import { PeripheralDevice } from '@interfaces/peripheralDevice.interface';
+import { Device } from '@interfaces/device.interface';
 import { Gateway } from '@interfaces/gateway.interface';
 import { Default, DeviceStatus } from '@constants';
 
-const PeripheralDeviceSchema: Schema = new Schema({
+const DeviceSchema: Schema = new Schema({
   uid: {
     type: Number,
     required: true,
@@ -47,9 +47,9 @@ const GatewaySchema: Schema = new Schema({
     }
   },
   devices: {
-    type: [PeripheralDeviceSchema],
+    type: [DeviceSchema],
     validate: {
-      validator: function (value: PeripheralDevice[]) {
+      validator: function (value: Device[]) {
         return value.length <= Default.MAX_DEVICES_COUNT;
       },
       message: `Exceeded the maximum number of peripheral devices (${Default.MAX_DEVICES_COUNT})`

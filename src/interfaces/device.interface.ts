@@ -1,6 +1,6 @@
 import { DeviceStatus } from '@constants';
 
-export interface PeripheralDevice {
+export interface Device {
   uid: number;
   vendor: string;
   dateCreated: Date;
