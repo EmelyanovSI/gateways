@@ -4,12 +4,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   CircularProgress,
-  Container,
+  Container, Divider,
   IconButton,
   List,
   ListItem,
   ListItemText,
-  Typography,
+  Typography
 } from '@mui/material';
 import { Delete as DeleteIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { getAllGateways, removePeripheralDevice } from '../services/gateway.service';
@@ -65,14 +65,16 @@ const GatewayList: React.FC = () => {
               {devices.length > 0 ? (
                 <List>
                   {devices.map(({ uid, vendor, status, dateCreated }) => (
-                    <ListItem key={uid}>
+                    <ListItem key={uid} style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                       <ListItemText
                         primary={`UID: ${uid}`}
                         secondary={`Vendor: ${vendor}`}
+                        style={{ flex: 1 }}
                       />
                       <ListItemText
                         primary={`Date created: ${getDateString(dateCreated)}`}
                         secondary={`Status: ${status}`}
+                        style={{ flex: 1 }}
                       />
                       <IconButton
                         color="error"
@@ -86,6 +88,8 @@ const GatewayList: React.FC = () => {
               ) : (
                 <Typography>No devices associated with this gateway.</Typography>
               )}
+              <Divider variant="middle" />
+              <br />
               <AddDeviceForm serialNumber={serialNumber} onDeviceAdded={fetchGateways} />
             </AccordionDetails>
           </Accordion>
