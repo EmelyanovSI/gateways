@@ -3,6 +3,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Container,
   List,
   ListItem,
   ListItemText,
@@ -25,7 +26,7 @@ const GatewayList: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
       {gateways.map((gateway) => (
         <Accordion key={gateway.serialNumber}>
           <AccordionSummary>
@@ -51,7 +52,7 @@ const GatewayList: React.FC = () => {
           </AccordionDetails>
         </Accordion>
       ))}
-    </div>
+    </Container>
   );
 };
 
