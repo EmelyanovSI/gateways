@@ -1,13 +1,13 @@
 import { Document, model, Schema } from 'mongoose';
-import { Device } from '@interfaces/device.interface';
 import { Gateway } from '@interfaces/gateway.interface';
-import { Default, DeviceStatus } from '@constants';
+import { DeviceStatus } from '@constants';
 
 const DeviceSchema: Schema = new Schema({
   uid: {
     type: Number,
     required: true,
-    unique: true
+    unique: true,
+    sparse: true
   },
   vendor: {
     type: String,
@@ -15,7 +15,6 @@ const DeviceSchema: Schema = new Schema({
   },
   dateCreated: {
     type: Date,
-    required: true,
     default: Date.now
   },
   status: {
