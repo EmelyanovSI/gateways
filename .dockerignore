@@ -1,6 +1,9 @@
 # compiled output
-.vscode
-/node_modules
+.vscode/
+.idea/
+node_modules/
+logs/
+dist/
 
 # code formatter
 .eslintrc
