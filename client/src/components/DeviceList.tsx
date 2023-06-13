@@ -22,13 +22,14 @@ const DeviceList: React.FC<DeviceListProps> = ({
   serialNumber,
   onDeviceRemoved
 }) => {
-  const handleRemoveDevice = async (uid: number) => {
-    try {
-      await removePeripheralDevice(serialNumber, uid);
-      onDeviceRemoved(serialNumber, uid);
-    } catch (error) {
-      console.error('Error removing peripheral device:', error);
-    }
+  const handleRemoveDevice = (uid: number) => {
+    removePeripheralDevice(serialNumber, uid)
+      .then(() => {
+        onDeviceRemoved(serialNumber, uid);
+      })
+      .catch((error) => {
+        console.error('Error removing peripheral device:', error);
+      });
   };
 
   return (
