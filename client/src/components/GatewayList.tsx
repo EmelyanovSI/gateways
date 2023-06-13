@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { getAllGateways } from '../services/gateway.service';
 import { Gateway } from '../interfaces/gateway.interface';
+import { getDateString } from '../utils';
 
 const GatewayList: React.FC = () => {
   const [gateways, setGateways] = useState<Gateway[]>([]);
@@ -27,28 +28,33 @@ const GatewayList: React.FC = () => {
 
   return (
     <Container>
-      {gateways.map((gateway) => (
-        <Accordion key={gateway.serialNumber}>
+      {gateways.map(({ serialNumber, name, ip, devices }) => (
+        <Accordion key={serialNumber}>
           <AccordionSummary>
-            <Typography>{gateway.name}</Typography>
+            <Typography>{name}</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <div>
-              <Typography variant="subtitle1">Serial Number: {gateway.serialNumber}</Typography>
-              <Typography variant="subtitle1">IP Address: {gateway.ip}</Typography>
-              <Typography variant="h6">Devices:</Typography>
-              {gateway.devices.length > 0 ? (
-                <List>
-                  {gateway.devices.map((device) => (
-                    <ListItem key={device.uid}>
-                      <ListItemText primary={`UID: ${device.uid}`} secondary={`Vendor: ${device.vendor}`} />
-                    </ListItem>
-                  ))}
-                </List>
-              ) : (
-                <Typography>No devices associated with this gateway.</Typography>
-              )}
-            </div>
+            <Typography variant="subtitle1">Serial Number: {serialNumber}</Typography>
+            <Typography variant="subtitle1">IP Address: {ip}</Typography>
+            <Typography variant="h6">Devices:</Typography>
+            {devices.length > 0 ? (
+              <List>
+                {devices.map(({ uid, vendor, status, dateCreated }) => (
+                  <ListItem key={uid}>
+                    <ListItemText
+                      primary={`UID: ${uid}`}
+                      secondary={`Vendor: ${vendor}`}
+                    />
+                    <ListItemText
+                      primary={`Date created: ${getDateString(dateCreated)}`}
+                      secondary={`Status: ${status}`}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <Typography>No devices associated with this gateway.</Typography>
+            )}
           </AccordionDetails>
         </Accordion>
       ))}
