@@ -3,22 +3,33 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Button,
+  CircularProgress,
   Container,
+  IconButton,
   List,
   ListItem,
   ListItemText,
-  Typography,
-  IconButton,
-  CircularProgress
+  TextField,
+  Typography
 } from '@mui/material';
-import { ExpandMore as ExpandMoreIcon, Delete as DeleteIcon } from '@mui/icons-material';
-import { getAllGateways, removePeripheralDevice } from '../services/gateway.service';
+import { Add as AddIcon, Delete as DeleteIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import { addPeripheralDevice, getAllGateways, removePeripheralDevice } from '../services/gateway.service';
 import { Gateway } from '../interfaces/gateway.interface';
+import { Device } from '../interfaces/device.interface';
 import { getDateString } from '../utils';
+import { DeviceStatus } from '../constants';
 
 const GatewayList: React.FC = () => {
+  const newDeviceInitialState: Device = {
+    uid: 0,
+    vendor: '',
+    status: DeviceStatus.Offline
+  };
+
   const [gateways, setGateways] = useState<Gateway[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [newDevice, setNewDevice] = useState<Device>(newDeviceInitialState);
 
   useEffect(() => {
     fetchGateways();
@@ -44,6 +55,16 @@ const GatewayList: React.FC = () => {
       fetchGateways();
     } catch (error) {
       console.error('Error removing peripheral device:', error);
+    }
+  };
+
+  const handleAddDevice = async (serialNumber: string) => {
+    try {
+      await addPeripheralDevice(serialNumber, newDevice);
+      setNewDevice(newDeviceInitialState);
+      fetchGateways();
+    } catch (error) {
+      console.error('Error adding peripheral device:', error);
     }
   };
 
@@ -85,6 +106,29 @@ const GatewayList: React.FC = () => {
               ) : (
                 <Typography>No devices associated with this gateway.</Typography>
               )}
+              <TextField
+                label="UID"
+                value={newDevice.uid}
+                onChange={(e) =>
+                  setNewDevice((prevDevice) => ({ ...prevDevice, uid: +e.target.value }))
+                }
+              />
+              <TextField
+                label="Vendor"
+                value={newDevice.vendor}
+                onChange={(e) =>
+                  setNewDevice((prevDevice) => ({ ...prevDevice, vendor: e.target.value }))
+                }
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<AddIcon />}
+                onClick={() => handleAddDevice(serialNumber)}
+              >
+                Add Device
+              </Button>
             </AccordionDetails>
           </Accordion>
         ))
