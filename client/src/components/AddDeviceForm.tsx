@@ -6,7 +6,8 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Grid
+  Grid,
+  Snackbar
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { addPeripheralDevice } from '../services/gateway.service';
@@ -26,15 +27,22 @@ const AddDeviceForm: React.FC<Props> = ({ serialNumber, onDeviceAdded }) => {
   };
 
   const [newDevice, setNewDevice] = useState<Device>(newDeviceInitialState);
+  const [error, setError] = useState<string>('');
 
-  const handleAddDevice = async () => {
-    try {
-      await addPeripheralDevice(serialNumber, newDevice);
-      setNewDevice(newDeviceInitialState);
-      onDeviceAdded();
-    } catch (error) {
-      console.error('Error adding peripheral device:', error);
-    }
+  const handleAddDevice = () => {
+    addPeripheralDevice(serialNumber, newDevice)
+      .then(() => {
+        setNewDevice(newDeviceInitialState);
+        onDeviceAdded();
+      })
+      .catch((error) => {
+        console.error('Error adding peripheral device:', error);
+        setError('Failed to add peripheral device.');
+      });
+  };
+
+  const handleCloseAlert = () => {
+    setError('');
   };
 
   return (
@@ -92,6 +100,12 @@ const AddDeviceForm: React.FC<Props> = ({ serialNumber, onDeviceAdded }) => {
           Add Device
         </Button>
       </Grid>
+      <Snackbar
+        open={Boolean(error)}
+        autoHideDuration={5000}
+        onClose={handleCloseAlert}
+        message={error}
+      />
     </Grid>
   );
 };
