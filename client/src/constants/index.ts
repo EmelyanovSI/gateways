@@ -5,13 +5,6 @@ export enum Env {
   Staging = 'staging'
 }
 
-export enum Status {
-  Idle,
-  Loading,
-  Succeeded,
-  Failed
-}
-
 export enum ThemeMode {
   Light = 'light',
   Dark = 'dark'
