@@ -3,7 +3,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  CircularProgress,
+  LinearProgress,
   Container,
   Divider,
   Typography
@@ -39,7 +39,7 @@ const GatewayList: React.FC = () => {
   return (
     <Container>
       {loading ? (
-        <CircularProgress />
+        <LinearProgress />
       ) : (
         gateways.map(({ serialNumber, name, ip, devices }) => (
           <Accordion key={serialNumber}>
