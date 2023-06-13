@@ -1,12 +1,15 @@
 import React from 'react';
+import { Container, CssBaseline } from '@mui/material';
 import GatewayList from './components/GatewayList';
+import appTheme from './appTheme';
 
 const App: React.FC = () => {
   return (
-    <div>
+    <Container>
+      <CssBaseline />
       <GatewayList />
-    </div>
+    </Container>
   );
 };
 
-export default App;
+export default appTheme(App);
