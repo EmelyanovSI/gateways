@@ -11,7 +11,11 @@ import {
   ListItem,
   ListItemText,
   TextField,
-  Typography
+  Typography,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl
 } from '@mui/material';
 import { Add as AddIcon, Delete as DeleteIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { addPeripheralDevice, getAllGateways, removePeripheralDevice } from '../services/gateway.service';
@@ -120,7 +124,19 @@ const GatewayList: React.FC = () => {
                   setNewDevice((prevDevice) => ({ ...prevDevice, vendor: e.target.value }))
                 }
               />
-
+              <FormControl>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  value={newDevice.status}
+                  onChange={(e) =>
+                    setNewDevice((prevDevice) => ({ ...prevDevice, status: e.target.value as DeviceStatus }))
+                  }
+                >
+                  {Object.values(DeviceStatus).map((status) => (
+                    <MenuItem key={status} value={status}>{status}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <Button
                 variant="contained"
                 color="primary"
