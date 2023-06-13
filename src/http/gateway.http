@@ -38,4 +38,4 @@ Content-Type: application/json
 }
 
 ### Remove Peripheral Device from Gateway
-DELETE http://localhost:4000/gateways/1/devices/1
+DELETE http://localhost:4000/gateways/12345/devices/1
