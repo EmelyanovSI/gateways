@@ -60,34 +60,36 @@ const GatewayList: React.FC = () => {
   };
 
   return (
-    <Container>
+    <>
       {loading ? (
         <LinearProgress />
       ) : (
-        gateways.map(({ serialNumber, name, ip, devices }) => (
-          <Accordion key={serialNumber}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>{name}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography variant="subtitle1">Serial Number: {serialNumber}</Typography>
-              <Typography variant="subtitle1">IP Address: {ip}</Typography>
-              <DeviceList
-                devices={devices}
-                serialNumber={serialNumber}
-                onDeviceRemoved={handleDeviceRemoved}
-              />
-              <Divider variant="middle" />
-              <br />
-              <AddDeviceForm
-                serialNumber={serialNumber}
-                onDeviceAdded={handleDeviceAdded}
-              />
-            </AccordionDetails>
-          </Accordion>
-        ))
+        <Container sx={{ mt: 2 }}>
+          {gateways.map(({ serialNumber, name, ip, devices }) => (
+            <Accordion key={serialNumber}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>{name}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="subtitle1">Serial Number: {serialNumber}</Typography>
+                <Typography variant="subtitle1">IP Address: {ip}</Typography>
+                <DeviceList
+                  devices={devices}
+                  serialNumber={serialNumber}
+                  onDeviceRemoved={handleDeviceRemoved}
+                />
+                <Divider variant="middle" />
+                <br />
+                <AddDeviceForm
+                  serialNumber={serialNumber}
+                  onDeviceAdded={handleDeviceAdded}
+                />
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </Container>
       )}
-    </Container>
+    </>
   );
 };
 
