@@ -16,10 +16,10 @@ export class GatewayController {
     }
   };
 
-  public getGatewayById = async (req: Request, res: Response, next: NextFunction) => {
+  public getGatewayBySerialNumber = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const gatewayId: string = req.params.id;
-      const gateway: Gateway = await this.gateway.getGatewayById(gatewayId);
+      const gatewaySerialNumber: string = req.params.serialNumber;
+      const gateway: Gateway = await this.gateway.getGatewayBySerialNumber(gatewaySerialNumber);
       res.status(200).json({ data: gateway });
     } catch (error) {
       next(error);
@@ -38,9 +38,9 @@ export class GatewayController {
 
   public updateGateway = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const gatewayId: string = req.params.id;
+      const gatewaySerialNumber: string = req.params.serialNumber;
       const gatewayData: Gateway = req.body;
-      const updatedGateway: Gateway = await this.gateway.updateGateway(gatewayId, gatewayData);
+      const updatedGateway: Gateway = await this.gateway.updateGateway(gatewaySerialNumber, gatewayData);
       res.status(200).json({ data: updatedGateway });
     } catch (error) {
       next(error);
@@ -49,8 +49,8 @@ export class GatewayController {
 
   public deleteGateway = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const gatewayId: string = req.params.id;
-      const deletedGateway: Gateway = await this.gateway.deleteGateway(gatewayId);
+      const gatewaySerialNumber: string = req.params.serialNumber;
+      const deletedGateway: Gateway = await this.gateway.deleteGateway(gatewaySerialNumber);
       res.status(200).json({ data: deletedGateway });
     } catch (error) {
       next(error);
@@ -59,9 +59,9 @@ export class GatewayController {
 
   public addPeripheralDevice = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const gatewayId: string = req.params.id;
+      const gatewaySerialNumber: string = req.params.serialNumber;
       const device: Device = req.body;
-      const updatedGateway: Gateway = await this.gateway.addPeripheralDevice(gatewayId, device);
+      const updatedGateway: Gateway = await this.gateway.addPeripheralDevice(gatewaySerialNumber, device);
       res.status(200).json({ data: updatedGateway });
     } catch (error) {
       next(error);
@@ -70,9 +70,9 @@ export class GatewayController {
 
   public removePeripheralDevice = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const gatewayId: string = req.params.id;
-      const deviceId: number = +req.params.deviceId;
-      const updatedGateway: Gateway = await this.gateway.removePeripheralDevice(gatewayId, deviceId);
+      const gatewaySerialNumber: string = req.params.serialNumber;
+      const deviceUid: number = +req.params.uid;
+      const updatedGateway: Gateway = await this.gateway.removePeripheralDevice(gatewaySerialNumber, deviceUid);
       res.status(200).json({ data: updatedGateway });
     } catch (error) {
       next(error);

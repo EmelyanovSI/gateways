@@ -10,8 +10,8 @@ export class GatewayService {
     return gateways;
   }
 
-  public async getGatewayById(gatewayId: string): Promise<Gateway> {
-    const gateway: Gateway = await GatewayModel.findById(gatewayId);
+  public async getGatewayBySerialNumber(gatewaySerialNumber: string): Promise<Gateway> {
+    const gateway: Gateway = await GatewayModel.findOne({ serialNumber: gatewaySerialNumber });
     if (!gateway) throw new Error('Gateway not found');
     return gateway;
   }
@@ -21,21 +21,21 @@ export class GatewayService {
     return gateway;
   }
 
-  public async updateGateway(gatewayId: string, gatewayData: Gateway): Promise<Gateway> {
-    const gateway: Gateway = await GatewayModel.findByIdAndUpdate(gatewayId, gatewayData, { new: true });
+  public async updateGateway(gatewaySerialNumber: string, gatewayData: Gateway): Promise<Gateway> {
+    const gateway: Gateway = await GatewayModel.findOneAndUpdate({ serialNumber: gatewaySerialNumber }, gatewayData, { new: true });
     if (!gateway) throw new Error('Gateway not found');
     return gateway;
   }
 
-  public async deleteGateway(gatewayId: string): Promise<Gateway> {
-    const gateway: Gateway = await GatewayModel.findByIdAndDelete(gatewayId);
+  public async deleteGateway(gatewaySerialNumber: string): Promise<Gateway> {
+    const gateway: Gateway = await GatewayModel.findOneAndDelete({ serialNumber: gatewaySerialNumber });
     if (!gateway) throw new Error('Gateway not found');
     return gateway;
   }
 
-  public async addPeripheralDevice(gatewayId: string, device: Device): Promise<Gateway> {
-    const gateway = await GatewayModel.findByIdAndUpdate(
-      gatewayId,
+  public async addPeripheralDevice(gatewaySerialNumber: string, device: Device): Promise<Gateway> {
+    const gateway = await GatewayModel.findOneAndUpdate(
+      { serialNumber: gatewaySerialNumber },
       { $push: { devices: device } },
       { new: true, runValidators: true }
     );
@@ -45,11 +45,11 @@ export class GatewayService {
     return gateway;
   }
 
-  public async removePeripheralDevice(gatewayId: string, deviceId: number): Promise<Gateway> {
-    const gateway = await GatewayModel.findById(gatewayId);
+  public async removePeripheralDevice(gatewaySerialNumber: string, deviceUid: number): Promise<Gateway> {
+    const gateway = await GatewayModel.findOne({ serialNumber: gatewaySerialNumber });
     if (!gateway) throw new Error('Gateway not found');
 
-    const deviceIndex = gateway.devices.findIndex((device) => device.uid === deviceId);
+    const deviceIndex = gateway.devices.findIndex((device) => device.uid === deviceUid);
     if (deviceIndex === -1) throw new Error('Peripheral device not found');
 
     gateway.devices.splice(deviceIndex, 1);

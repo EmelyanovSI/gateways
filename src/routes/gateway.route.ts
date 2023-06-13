@@ -13,11 +13,11 @@ export class GatewayRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(this.path, this.gateway.getAllGateways);
-    this.router.get(`${this.path}/:id`, this.gateway.getGatewayById);
+    this.router.get(`${this.path}/:serialNumber`, this.gateway.getGatewayBySerialNumber);
     this.router.post(this.path, this.gateway.createGateway);
-    this.router.put(`${this.path}/:id`, this.gateway.updateGateway);
-    this.router.delete(`${this.path}/:id`, this.gateway.deleteGateway);
-    this.router.post(`${this.path}/:id/devices`, this.gateway.addPeripheralDevice);
-    this.router.delete(`${this.path}/:id/devices/:deviceId`, this.gateway.removePeripheralDevice);
+    this.router.put(`${this.path}/:serialNumber`, this.gateway.updateGateway);
+    this.router.delete(`${this.path}/:serialNumber`, this.gateway.deleteGateway);
+    this.router.post(`${this.path}/:serialNumber/devices`, this.gateway.addPeripheralDevice);
+    this.router.delete(`${this.path}/:serialNumber/devices/:uid`, this.gateway.removePeripheralDevice);
   }
 }
