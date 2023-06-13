@@ -1,6 +1,4 @@
 # compiled output
-.vscode/
-.idea/
 node_modules/
 logs/
 dist/
@@ -18,4 +16,3 @@ jest.config.js
 
 # docker
 Dockerfile
-docker-compose.yml
