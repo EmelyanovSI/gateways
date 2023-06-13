@@ -16,7 +16,7 @@ import { DeviceStatus } from '../constants';
 
 interface Props {
   serialNumber: string;
-  onDeviceAdded: () => void;
+  onDeviceAdded: (serialNumber: string, newDevice: Device) => void;
 }
 
 const AddDeviceForm: React.FC<Props> = ({ serialNumber, onDeviceAdded }) => {
@@ -33,7 +33,7 @@ const AddDeviceForm: React.FC<Props> = ({ serialNumber, onDeviceAdded }) => {
     addPeripheralDevice(serialNumber, newDevice)
       .then(() => {
         setNewDevice(newDeviceInitialState);
-        onDeviceAdded();
+        onDeviceAdded(serialNumber, newDevice);
       })
       .catch((error) => {
         console.error('Error adding peripheral device:', error);

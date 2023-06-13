@@ -11,6 +11,7 @@ import {
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { getAllGateways } from '../services/gateway.service';
 import { Gateway } from '../interfaces/gateway.interface';
+import { Device } from '../interfaces/device.interface';
 import AddDeviceForm from './AddDeviceForm';
 import DeviceList from './DeviceList';
 
@@ -36,6 +37,28 @@ const GatewayList: React.FC = () => {
       });
   };
 
+  const handleDeviceRemoved = (serialNumber: string, uid: number) => {
+    const updatedGateways = gateways.map((gateway) => {
+      if (gateway.serialNumber === serialNumber) {
+        const updatedDevices = gateway.devices.filter((device) => device.uid !== uid);
+        return { ...gateway, devices: updatedDevices };
+      }
+      return gateway;
+    });
+    setGateways(updatedGateways);
+  };
+
+  const handleDeviceAdded = (serialNumber: string, newDevice: Device) => {
+    const updatedGateways = gateways.map((gateway) => {
+      if (gateway.serialNumber === serialNumber) {
+        const updatedDevices = [...gateway.devices, newDevice];
+        return { ...gateway, devices: updatedDevices };
+      }
+      return gateway;
+    });
+    setGateways(updatedGateways);
+  };
+
   return (
     <Container>
       {loading ? (
@@ -52,11 +75,14 @@ const GatewayList: React.FC = () => {
               <DeviceList
                 devices={devices}
                 serialNumber={serialNumber}
-                onDeviceRemoved={fetchGateways}
+                onDeviceRemoved={handleDeviceRemoved}
               />
               <Divider variant="middle" />
               <br />
-              <AddDeviceForm serialNumber={serialNumber} onDeviceAdded={fetchGateways} />
+              <AddDeviceForm
+                serialNumber={serialNumber}
+                onDeviceAdded={handleDeviceAdded}
+              />
             </AccordionDetails>
           </Accordion>
         ))

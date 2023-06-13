@@ -14,7 +14,7 @@ import { Device } from '../interfaces/device.interface';
 interface DeviceListProps {
   devices: Device[];
   serialNumber: string;
-  onDeviceRemoved: () => void;
+  onDeviceRemoved: (serialNumber: string, uid: number) => void;
 }
 
 const DeviceList: React.FC<DeviceListProps> = ({
@@ -25,7 +25,7 @@ const DeviceList: React.FC<DeviceListProps> = ({
   const handleRemoveDevice = async (uid: number) => {
     try {
       await removePeripheralDevice(serialNumber, uid);
-      onDeviceRemoved();
+      onDeviceRemoved(serialNumber, uid);
     } catch (error) {
       console.error('Error removing peripheral device:', error);
     }
