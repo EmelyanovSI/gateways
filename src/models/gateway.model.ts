@@ -35,7 +35,7 @@ const GatewaySchema: Schema = new Schema({
     type: String,
     required: true
   },
-  ipv4Address: {
+  ip: {
     type: String,
     required: true,
     validate: {
