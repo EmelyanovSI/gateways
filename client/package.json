@@ -2,6 +2,9 @@
   "name": "gateways",
   "version": "1.0.0",
   "private": true,
+  "description": "TypeScript + Redux + Material UI + React Client UI",
+  "author": "Siarhei Yemelianau <xemelyanov@gmail.com> (https://github.com/EmelyanovSI)",
+  "license": "ISC",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

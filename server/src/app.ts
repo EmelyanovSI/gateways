@@ -40,10 +40,6 @@ export class App {
     });
   }
 
-  public getServer() {
-    return this.app;
-  }
-
   private connectToDatabase() {
     set('strictQuery', true);
     if (this.env !== Env.Production) {
