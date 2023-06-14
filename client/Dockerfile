@@ -4,4 +4,5 @@ COPY package*.json .
 RUN npm install --legacy-peer-deps
 COPY . .
 RUN npm run build
-ENTRYPOINT ["npm", "start"]
+RUN npm install --global serve
+ENTRYPOINT ["serve", "-s", "build"]
